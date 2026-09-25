@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 
 
-def test_get_health():
+def test_health():
     client = TestClient(app)
 
     response = client.request(method="get", url="/health")

@@ -6,7 +6,16 @@ from app.main import app
 def test_health():
     client = TestClient(app)
 
-    response = client.request(method="get", url="/health")
+    response = client.get("/health")
 
     assert response.status_code == 200
     assert response.json() == {"status": "ok", "app_name": "documind"}
+
+
+def test_simple():
+    client = TestClient(app)
+
+    response = client.post('/v1/simple', json={
+        "question": ""
+    })
+    assert response.status_code == 422

@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     llm_temperature: float = 0
     ollama_base_url: str = Field(default="http://localhost:11434")
     database_url: str = Field(default="postgresql+psycopg://documind:documind@localhost:5432/documind")
+    web_search_enabled: bool = Field(default=False)
 
 
 @lru_cache

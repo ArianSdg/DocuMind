@@ -1,10 +1,12 @@
+import asyncio
 import json
 
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from langchain_core.output_parsers import StrOutputParser
 
-from app.api.schemas import AnswerOut, QuestionIn
+from app.agents.agent import run_agent
+from app.api.schemas import AgentOut, AnswerOut, QuestionIn
 from app.llm.factory import get_llm
 from app.prompts import SIMPLE_PROMPT
 
@@ -38,3 +40,10 @@ async def stream_simple(body: QuestionIn):
 
         yield sse({"type": "done"})
     return StreamingResponse(events(), media_type="text/event-stream")
+
+
+@router.post('/agent', response_model=AgentOut)
+async def agent(body: QuestionIn):
+    out = await asyncio.to_thread(run_agent, body.question)
+
+    return AgentOut(**out)

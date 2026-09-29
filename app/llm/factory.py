@@ -4,10 +4,10 @@ from langchain.chat_models import init_chat_model
 
 from app.core.config import get_settings
 
-settings = get_settings()
-
 
 def _get_provider_kwargs():
+    settings = get_settings()
+
     if settings.llm_provider == "groq":
         return {
             "max_retries": 3
@@ -23,6 +23,8 @@ def _get_provider_kwargs():
 
 @lru_cache
 def get_llm():
+    settings = get_settings()
+
     return init_chat_model(
         model=settings.llm_model,
         model_provider=settings.llm_provider,
@@ -32,6 +34,8 @@ def get_llm():
 
 @lru_cache
 def get_fast_llm():
+    settings = get_settings()
+
     return init_chat_model(
         model=settings.fast_llm_model,
         model_provider=settings.llm_provider,

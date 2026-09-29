@@ -7,3 +7,6 @@ class QuestionIn(BaseModel):
 class AnswerOut(BaseModel):
     answer: str
     sources: list = Field(default_factory=list)
+
+class AgentOut(AnswerOut):
+    tools_used: list[str] = Field(default_factory=list)
